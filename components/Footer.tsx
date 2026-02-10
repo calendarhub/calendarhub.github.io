@@ -43,22 +43,6 @@ export default function Footer() {
                 </Link>
               </li>
               <li>
-                <Link
-                  href="/calendar"
-                  className="text-gray-600 hover:text-blue-600 transition-colors text-sm"
-                >
-                  Calendar
-                </Link>
-              </li>
-              <li>
-                <Link
-                  href="/about"
-                  className="text-gray-600 hover:text-blue-600 transition-colors text-sm"
-                >
-                  About Us
-                </Link>
-              </li>
-              <li>
                 <a
                   href="https://weather-pro.github.io/"
                   target="_blank"

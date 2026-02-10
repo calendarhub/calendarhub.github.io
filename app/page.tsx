@@ -2,10 +2,11 @@
 
 import { useState, useEffect } from "react";
 import { Calendar, Filter, MapPin, Info, ChevronDown } from "lucide-react";
-import { CountryCode } from "@/types";
+import { CountryCode, Holiday } from "@/types";
 import { useHolidays } from "@/hooks/useHolidays";
 import CalendarComponent from "@/components/Calendar";
 import CountrySelector from "@/components/CountrySelector";
+import HolidayModal from "@/components/HolidayModal";
 import {
   t,
   getDefaultCountry,
@@ -20,6 +21,8 @@ export default function Home() {
   const [country, setCountry] = useState<CountryCode>("");
   const [currentDate, setCurrentDate] = useState<Date>(new Date());
   const [viewMode, setViewMode] = useState<"month" | "week">("month");
+  const [selectedHoliday, setSelectedHoliday] = useState<Holiday | null>(null);
+  const [isModalOpen, setIsModalOpen] = useState(false);
   const [selectedRegion, setSelectedRegion] = useState<string>("all");
   const [isRegionOpen, setIsRegionOpen] = useState(false);
   const [isYearOpen, setIsYearOpen] = useState(false);
@@ -60,6 +63,11 @@ export default function Home() {
     setIsYearOpen(false);
   };
 
+  const handleHolidayClick = (holiday: Holiday) => {
+    setSelectedHoliday(holiday);
+    setIsModalOpen(true);
+  };
+
   const filteredCountries =
     selectedRegion === "all"
       ? countries
@@ -89,7 +97,7 @@ export default function Home() {
                 </button>
 
                 {isYearOpen && (
-                  <div className="absolute top-full right-0 mt-2 w-32 bg-white rounded-xl shadow-lg border border-gray-200 py-2 z-10 animate-fade-in">
+                  <div className="absolute top-full right-0 mt-2 w-32 bg-white rounded-xl shadow-lg border border-gray-200 py-2 z-20 animate-fade-in">
                     {years.map((year) => (
                       <button
                         key={year}
@@ -240,6 +248,7 @@ export default function Home() {
               language={language}
               onDateChange={setCurrentDate}
               onViewModeChange={setViewMode}
+              onHolidayClick={handleHolidayClick}
               isMobile={isMobile}
             />
           </div>
@@ -254,6 +263,13 @@ export default function Home() {
           </div>
         )}
       </div>
+      {/* Holiday Modal */}
+      <HolidayModal
+        holiday={selectedHoliday}
+        isOpen={isModalOpen}
+        onClose={() => setIsModalOpen(false)}
+        language={language}
+      />
     </main>
   );
 }

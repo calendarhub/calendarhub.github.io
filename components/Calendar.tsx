@@ -34,6 +34,7 @@ interface CalendarProps {
   language: Language;
   onDateChange: (date: Date) => void;
   onViewModeChange: (mode: "month" | "week") => void;
+  onHolidayClick: (holiday: Holiday) => void;
   isMobile: boolean;
 }
 
@@ -45,6 +46,7 @@ export default function Calendar({
   language,
   onDateChange,
   onViewModeChange,
+  onHolidayClick,
   isMobile,
 }: CalendarProps) {
   const { todos, addTodo, toggleTodo, deleteTodo, getTodosForDate } =
@@ -96,7 +98,7 @@ export default function Calendar({
 
   return (
     <div className="glass rounded-2xl overflow-hidden shadow-sm md:shadow">
-      {/* Calendar Header - 移动端简化 */}
+      {/* Calendar Header  */}
       <div className="p-3 md:p-6">
         <div className="flex items-center justify-between mb-2 md:mb-0">
           <div className="flex items-center space-x-2">
@@ -117,7 +119,7 @@ export default function Calendar({
         </div>
       </div>
 
-      {/* Calendar Controls - 移动端优化 */}
+      {/* Calendar Controls */}
       <div className="px-3 md:px-6 pb-3 md:pb-6">
         <div className="flex items-center justify-between space-x-2">
           <div className="flex items-center space-x-1 md:space-x-2">
@@ -231,7 +233,7 @@ export default function Calendar({
                 onClick={() => {
                   setSelectedDate(dateStr);
                   if (day.holiday) {
-                    // 这里触发假日详情弹窗
+                    onHolidayClick(day.holiday);
                   }
                 }}
               >

@@ -58,20 +58,18 @@ export default function RootLayout({
           name="apple-mobile-web-app-status-bar-style"
           content="black-translucent"
         />
-        <head>
-          <Script
-            src="https://www.googletagmanager.com/gtag/js?id=G-EZK6P409E6"
-            strategy="afterInteractive"
-          />
-          <Script id="ga-init" strategy="afterInteractive">
-            {`
+        <Script
+          src="https://www.googletagmanager.com/gtag/js?id=G-EZK6P409E6"
+          strategy="afterInteractive"
+        />
+        <Script id="ga-init" strategy="afterInteractive">
+          {`
             window.dataLayer = window.dataLayer || [];
             function gtag(){dataLayer.push(arguments);}
             gtag('js', new Date());
             gtag('config', 'G-EZK6P409E6');
           `}
-          </Script>
-        </head>
+        </Script>
       </head>
       <body className={`${inter.className} antialiased bg-gray-50`}>
         <ErrorBoundary>

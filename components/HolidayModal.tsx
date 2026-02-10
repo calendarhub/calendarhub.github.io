@@ -2,7 +2,7 @@
 
 import { Holiday, Language } from "@/types";
 import { t } from "@/utils/i18n";
-import { X, Calendar, MapPin, Tag, Info, Globe, Star } from "lucide-react";
+import { X, Calendar, Tag, Info, Globe, Star } from "lucide-react";
 import { useEffect } from "react";
 
 interface HolidayModalProps {
