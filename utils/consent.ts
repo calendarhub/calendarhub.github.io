@@ -4,7 +4,6 @@ export const COOKIE_CONSENT_EVENT = "cookie-consent-changed";
 const PREFERENCE_KEYS = [
   "preferred_language",
   "preferred_country",
-  "holiday_calendar_todos",
   "holiday_calendar_cache",
 ];
 
@@ -22,8 +21,7 @@ export const getCookieConsent = (): CookieConsent => {
   return "unknown";
 };
 
-export const canUsePreferenceStorage = () =>
-  getCookieConsent() === "granted";
+export const canUsePreferenceStorage = () => getCookieConsent() === "granted";
 
 export const setCookieConsent = (value: "true" | "false") => {
   if (typeof window === "undefined") return;

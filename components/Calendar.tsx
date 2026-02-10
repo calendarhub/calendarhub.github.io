@@ -238,7 +238,7 @@ export default function Calendar({
                 }}
               >
                 {/* Day Number */}
-                <div className="flex justify-between items-start mb-1">
+                <div className="flex items-start justify-between gap-1 mb-1">
                   <span
                     className={`
                     font-semibold text-sm md:text-base
@@ -253,16 +253,34 @@ export default function Calendar({
                   >
                     {day.date.getDate()}
                   </span>
-
-                  {/* Holiday Indicator - 移动端简化 */}
-                  {day.holiday && (
-                    <span className="text-[10px] md:text-xs font-medium px-1 py-0.5 md:px-2 md:py-1 rounded-full bg-blue-100 text-blue-700 border border-blue-200">
-                      {isMobile ? "H" : day.holiday.name.substring(0, 8)}
-                    </span>
+                  {!isMobile && (
+                    <div className="flex items-center gap-1 shrink-0">
+                      {/* Holiday Indicator*/}
+                      {day.holiday && (
+                        <span className="text-[10px] md:text-xs font-medium px-1 py-0.5 md:px-2 md:py-1 rounded-full bg-blue-100 text-blue-700 border border-blue-200 whitespace-nowrap">
+                          {day.holiday.name.substring(0, 8)}
+                        </span>
+                      )}
+                    </div>
                   )}
                 </div>
 
-                {/* Todos - 移动端隐藏部分 */}
+                {isMobile && (
+                  <div className="absolute bottom-0.5 right-1 flex flex-col items-end gap-0.4">
+                    {day.holiday && (
+                      <span className="text-[10px] leading-none font-semibold px-1 py-0.5 rounded-full bg-blue-100 text-blue-700 border border-blue-200">
+                        H
+                      </span>
+                    )}
+                    {day.todos.length > 0 && (
+                      <span className="inline-flex items-center justify-center min-w-4 h-4 px-1 text-[10px] leading-none font-semibold rounded-full bg-emerald-100 text-emerald-700 border border-emerald-200">
+                        {day.todos.length}
+                      </span>
+                    )}
+                  </div>
+                )}
+
+                {/* Todos */}
                 {!isMobile && (
                   <div className="space-y-1 mt-1">
                     {day.todos.slice(0, 2).map((todo: any) => (
@@ -296,7 +314,7 @@ export default function Calendar({
         </div>
       </div>
 
-      {/* Todo Input - 移动端优化 */}
+      {/* Todo Input */}
       {selectedDate && (
         <div className="px-3 md:px-6 pb-3 md:pb-6 animate-fade-in">
           <div className="glass rounded-xl p-3 md:p-4">
@@ -325,7 +343,7 @@ export default function Calendar({
               </button>
             </div>
 
-            {/* Selected Date Todos - 移动端优化 */}
+            {/* Selected Date Todos */}
             {selectedDateTodos.length > 0 && (
               <div className="mt-3 md:mt-4">
                 <h4 className="font-medium text-gray-800 mb-2 text-sm md:text-base">
