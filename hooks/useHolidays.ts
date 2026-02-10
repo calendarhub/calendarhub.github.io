@@ -1,6 +1,7 @@
 import { useState, useEffect, useCallback } from "react";
 import { Holiday, CountryCode } from "@/types";
 import { fetchHolidays } from "@/utils/api";
+import { canUsePreferenceStorage } from "@/utils/consent";
 
 const HOLIDAY_STORAGE_KEY = "holiday_calendar_cache";
 
@@ -11,12 +12,20 @@ export const useHolidays = (country: CountryCode, year: number) => {
   const [cachedYears, setCachedYears] = useState<Set<number>>(new Set());
 
   const loadHolidays = useCallback(async () => {
+    if (!country) {
+      setHolidays([]);
+      setError(null);
+      setLoading(false);
+      return;
+    }
     setLoading(true);
     setError(null);
 
     try {
       const cacheKey = `${country}_${year}`;
-      const cachedData = localStorage.getItem(HOLIDAY_STORAGE_KEY);
+      const cachedData = canUsePreferenceStorage()
+        ? localStorage.getItem(HOLIDAY_STORAGE_KEY)
+        : null;
 
       if (cachedData) {
         const cache = JSON.parse(cachedData);
@@ -41,12 +50,14 @@ export const useHolidays = (country: CountryCode, year: number) => {
 
       setHolidays(data);
 
-      const newCache = cachedData ? JSON.parse(cachedData) : {};
-      newCache[cacheKey] = {
-        data,
-        timestamp: Date.now(),
-      };
-      localStorage.setItem(HOLIDAY_STORAGE_KEY, JSON.stringify(newCache));
+      if (canUsePreferenceStorage()) {
+        const newCache = cachedData ? JSON.parse(cachedData) : {};
+        newCache[cacheKey] = {
+          data,
+          timestamp: Date.now(),
+        };
+        localStorage.setItem(HOLIDAY_STORAGE_KEY, JSON.stringify(newCache));
+      }
 
       const years = new Set(cachedYears);
       years.add(year);

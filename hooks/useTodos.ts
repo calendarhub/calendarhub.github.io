@@ -1,5 +1,6 @@
 import { useState, useEffect, useCallback } from "react";
 import { Todo, CountryCode } from "@/types";
+import { canUsePreferenceStorage } from "@/utils/consent";
 
 const TODO_STORAGE_KEY = "holiday_calendar_todos";
 
@@ -8,6 +9,7 @@ export const useTodos = (country: CountryCode) => {
 
   // Load todos from localStorage on mount
   useEffect(() => {
+    if (!canUsePreferenceStorage()) return;
     const storedTodos = localStorage.getItem(TODO_STORAGE_KEY);
     if (storedTodos) {
       try {
@@ -20,6 +22,7 @@ export const useTodos = (country: CountryCode) => {
 
   // Save todos to localStorage whenever they change
   useEffect(() => {
+    if (!canUsePreferenceStorage()) return;
     localStorage.setItem(TODO_STORAGE_KEY, JSON.stringify(todos));
   }, [todos]);
 

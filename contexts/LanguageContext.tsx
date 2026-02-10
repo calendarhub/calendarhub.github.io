@@ -1,8 +1,9 @@
 "use client";
 
 import React, { createContext, useContext, useState, useEffect } from "react";
-import { getDefaultLanguage} from "@/utils/i18n";
+import { getDefaultLanguage } from "@/utils/i18n";
 import { Language } from "@/types";
+import { canUsePreferenceStorage } from "@/utils/consent";
 
 interface LanguageContextType {
   language: Language;
@@ -22,7 +23,9 @@ export function LanguageProvider({ children }: { children: React.ReactNode }) {
 
   const handleSetLanguage = (lang: Language) => {
     setLanguage(lang);
-    localStorage.setItem("preferred_language", lang);
+    if (canUsePreferenceStorage()) {
+      localStorage.setItem("preferred_language", lang);
+    }
   };
 
   return (

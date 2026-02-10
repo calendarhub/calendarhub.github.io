@@ -3,24 +3,30 @@
 import { useState, useEffect } from "react";
 import { Cookie, X } from "lucide-react";
 import Link from "next/link";
+import {
+  clearPreferenceStorage,
+  getCookieConsent,
+  setCookieConsent,
+} from "@/utils/consent";
 
 export default function CookieBanner() {
   const [showBanner, setShowBanner] = useState(false);
 
   useEffect(() => {
-    const consent = localStorage.getItem("cookie-consent");
-    if (consent === null) {
+    const consent = getCookieConsent();
+    if (consent === "unknown") {
       setShowBanner(true);
     }
   }, []);
 
   const handleAccept = () => {
-    localStorage.setItem("cookie-consent", "true");
+    setCookieConsent("true");
     setShowBanner(false);
   };
 
   const handleReject = () => {
-    localStorage.setItem("cookie-consent", "false");
+    setCookieConsent("false");
+    clearPreferenceStorage();
     setShowBanner(false);
   };
 

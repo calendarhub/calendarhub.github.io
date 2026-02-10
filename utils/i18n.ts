@@ -1,4 +1,5 @@
 import { Language, CountryCode } from "@/types";
+import { canUsePreferenceStorage } from "@/utils/consent";
 
 export const translations: any = {
   en: {
@@ -260,9 +261,11 @@ export const t = (key: string, lang: Language): string => {
 
 export const getDefaultLanguage = (): Language => {
   if (typeof window !== "undefined") {
-    const savedLang = localStorage.getItem("preferred_language") as Language;
-    if (savedLang && ["en", "zh", "ja"].includes(savedLang)) {
-      return savedLang;
+    if (canUsePreferenceStorage()) {
+      const savedLang = localStorage.getItem("preferred_language") as Language;
+      if (savedLang && ["en", "zh", "ja"].includes(savedLang)) {
+        return savedLang;
+      }
     }
 
     const browserLang = navigator.language.toLowerCase();
@@ -286,11 +289,13 @@ export const getDefaultLanguage = (): Language => {
 
 export const getDefaultCountry = (): CountryCode => {
   if (typeof window !== "undefined") {
-    const savedCountry = localStorage.getItem(
-      "preferred_country",
-    ) as CountryCode;
-    if (savedCountry && savedCountry.length === 2) {
-      return savedCountry;
+    if (canUsePreferenceStorage()) {
+      const savedCountry = localStorage.getItem(
+        "preferred_country",
+      ) as CountryCode;
+      if (savedCountry && savedCountry.length === 2) {
+        return savedCountry;
+      }
     }
 
     try {
@@ -340,6 +345,7 @@ export const saveUserPreferences = (
 ) => {
   if (typeof window !== "undefined") {
     try {
+      if (!canUsePreferenceStorage()) return;
       localStorage.setItem("preferred_language", language);
       localStorage.setItem("preferred_country", country);
     } catch (error) {

@@ -3,6 +3,11 @@
 import { useState, useEffect } from "react";
 import { Cookie, Settings, Eye, Trash2, CheckCircle } from "lucide-react";
 import { useLanguage } from "@/contexts/LanguageContext";
+import {
+  clearPreferenceStorage,
+  getCookieConsent,
+  setCookieConsent,
+} from "@/utils/consent";
 
 export default function CookiePolicy() {
   const [lastUpdated, setLastUpdated] = useState("2024-01-15");
@@ -11,12 +16,13 @@ export default function CookiePolicy() {
 
   useEffect(() => {
     setLastUpdated(new Date().toISOString().split("T")[0]);
-    const consent = localStorage.getItem("cookie-consent") === "true";
+    const consent = getCookieConsent() === "granted";
     setCookieConsent(consent);
   }, []);
 
-  const handleConsent = (consent: boolean) => {
-    localStorage.setItem("cookie-consent", consent.toString());
+  const handleConsent = (consent: any) => {
+    setCookieConsent(consent);
+    if (!consent) clearPreferenceStorage();
     setCookieConsent(consent);
   };
 
