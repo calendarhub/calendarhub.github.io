@@ -73,9 +73,7 @@ export const generateMonthDays = (
     const isToday = isSameDay(day, new Date());
 
     const holiday = holidays.find((h) => h.date === dateStr);
-    const dayTodos = todos.filter(
-      (t) => t.date === dateStr && t.country === country,
-    );
+    const dayTodos = todos.filter((t) => t.date === dateStr);
 
     return {
       date: day,
@@ -114,9 +112,7 @@ export const generateWeekDays = (
   return days.map((day) => {
     const dateStr = formatDate(day);
     const holiday = holidays.find((h) => h.date === dateStr);
-    const dayTodos = todos.filter(
-      (t) => t.date === dateStr && t.country === country,
-    );
+    const dayTodos = todos.filter((t) => t.date === dateStr);
 
     return {
       date: day,

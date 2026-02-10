@@ -1,7 +1,7 @@
 import { useState, useEffect, useCallback } from "react";
 import { Todo, CountryCode } from "@/types";
 
-const TODO_STORAGE_KEY = "holiday_calendar_todos";
+const TODO_STORAGE_KEY = "calendar_todos";
 
 export const useTodos = (country: CountryCode) => {
   const [todos, setTodos] = useState<Todo[]>([]);
@@ -18,10 +18,13 @@ export const useTodos = (country: CountryCode) => {
     }
   }, []);
 
-  // Save todos to localStorage whenever they change
-  useEffect(() => {
-    localStorage.setItem(TODO_STORAGE_KEY, JSON.stringify(todos));
-  }, [todos]);
+  const persistTodos = (next: Todo[]) => {
+    try {
+      localStorage.setItem(TODO_STORAGE_KEY, JSON.stringify(next));
+    } catch (error) {
+      console.warn("Failed to save todos to localStorage:", error);
+    }
+  };
 
   const addTodo = useCallback(
     (date: string, text: string) => {
@@ -35,37 +38,48 @@ export const useTodos = (country: CountryCode) => {
         country,
       };
 
-      setTodos((prev) => [...prev, newTodo]);
+      setTodos((prev) => {
+        const next = [...prev, newTodo];
+        persistTodos(next);
+        return next;
+      });
     },
     [country],
   );
 
   const toggleTodo = useCallback((id: string) => {
-    setTodos((prev) =>
-      prev.map((todo) =>
+    setTodos((prev) => {
+      const next = prev.map((todo) =>
         todo.id === id ? { ...todo, completed: !todo.completed } : todo,
-      ),
-    );
+      );
+      persistTodos(next);
+      return next;
+    });
   }, []);
 
   const deleteTodo = useCallback((id: string) => {
-    setTodos((prev) => prev.filter((todo) => todo.id !== id));
+    setTodos((prev) => {
+      const next = prev.filter((todo) => todo.id !== id);
+      persistTodos(next);
+      return next;
+    });
   }, []);
 
   const updateTodo = useCallback((id: string, updates: Partial<Todo>) => {
-    setTodos((prev) =>
-      prev.map((todo) => (todo.id === id ? { ...todo, ...updates } : todo)),
-    );
+    setTodos((prev) => {
+      const next = prev.map((todo) =>
+        todo.id === id ? { ...todo, ...updates } : todo,
+      );
+      persistTodos(next);
+      return next;
+    });
   }, []);
 
   const getTodosForDate = useCallback(
     (date: string) => {
-      return todos.filter((todo) => {
-        if (!country) return todo.date === date;
-        return todo.date === date && todo.country === country;
-      });
+      return todos.filter((todo) => todo.date === date);
     },
-    [todos, country],
+    [todos],
   );
 
   const getTodosForMonth = useCallback(
@@ -73,16 +87,10 @@ export const useTodos = (country: CountryCode) => {
       const monthStr = month.toString().padStart(2, "0");
       return todos.filter((todo) => {
         const [todoYear, todoMonth] = todo.date.split("-");
-        if (!country)
-          return todoYear === year.toString() && todoMonth === monthStr;
-        return (
-          todo.country === country &&
-          todoYear === year.toString() &&
-          todoMonth === monthStr
-        );
+        return todoYear === year.toString() && todoMonth === monthStr;
       });
     },
-    [todos, country],
+    [todos],
   );
 
   return {

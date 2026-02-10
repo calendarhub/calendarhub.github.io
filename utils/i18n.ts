@@ -300,7 +300,6 @@ export const getDefaultCountry = (): CountryCode => {
 
     try {
       const timezone = Intl.DateTimeFormat().resolvedOptions().timeZone;
-      console.log("User timezone:", timezone);
 
       if (timezone.includes("Asia/Tokyo") || timezone.includes("Japan"))
         return "JP";

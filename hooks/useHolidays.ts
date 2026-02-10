@@ -44,9 +44,7 @@ export const useHolidays = (country: CountryCode, year: number) => {
         }
       }
 
-      console.log(`Fetching holidays for ${country} in ${year}...`);
       const data = await fetchHolidays(country, year);
-      console.log(`Received ${data.length} holidays for ${country} in ${year}`);
 
       setHolidays(data);
 
