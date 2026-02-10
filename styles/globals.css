@@ -1,0 +1,162 @@
+@import "tailwindcss";
+
+:root {
+  --foreground-rgb: 30, 41, 59;
+  --background-start-rgb: 241, 245, 249;
+  --background-end-rgb: 226, 232, 240;
+}
+
+body {
+  color: rgb(var(--foreground-rgb));
+  background: linear-gradient(
+      to bottom,
+      transparent,
+      rgb(var(--background-end-rgb))
+    )
+    rgb(var(--background-start-rgb));
+  min-height: 100vh;
+  font-feature-settings:
+    "rlig" 1,
+    "calt" 1;
+}
+
+/* 提高玻璃效果的透明度 */
+.glass {
+  background: rgba(255, 255, 255, 0.85);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.9);
+  box-shadow: 0 8px 32px rgba(31, 38, 135, 0.1);
+}
+
+.glass-heavy {
+  background: rgba(255, 255, 255, 0.9);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border: 1px solid rgba(255, 255, 255, 0.95);
+  box-shadow: 0 8px 32px rgba(31, 38, 135, 0.15);
+}
+
+.glass-light {
+  background: rgba(255, 255, 255, 0.7);
+  backdrop-filter: blur(5px);
+  -webkit-backdrop-filter: blur(5px);
+  border: 1px solid rgba(255, 255, 255, 0.8);
+  box-shadow: 0 4px 16px rgba(31, 38, 135, 0.08);
+}
+
+/* 更亮的渐变边框效果 */
+.gradient-border {
+  position: relative;
+  background: linear-gradient(
+    to right,
+    rgba(255, 255, 255, 0.95),
+    rgba(255, 255, 255, 0.9)
+  );
+}
+
+.gradient-border::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  border-radius: inherit;
+  padding: 1px;
+  background: linear-gradient(
+    45deg,
+    rgba(59, 130, 246, 0.3),
+    rgba(99, 102, 241, 0.2),
+    rgba(59, 130, 246, 0.3)
+  );
+  -webkit-mask:
+    linear-gradient(#fff 0 0) content-box,
+    linear-gradient(#fff 0 0);
+  mask:
+    linear-gradient(#fff 0 0) content-box,
+    linear-gradient(#fff 0 0);
+  -webkit-mask-composite: xor;
+  mask-composite: exclude;
+  pointer-events: none;
+}
+
+/* 更柔和的阴影 */
+.shadow-glow {
+  box-shadow: 0 8px 32px rgba(31, 38, 135, 0.1);
+}
+
+/* 自定义滚动条 */
+::-webkit-scrollbar {
+  width: 10px;
+  height: 10px;
+}
+
+::-webkit-scrollbar-track {
+  background: rgba(0, 0, 0, 0.05);
+  border-radius: 5px;
+}
+
+::-webkit-scrollbar-thumb {
+  background: rgba(59, 130, 246, 0.3);
+  border-radius: 5px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: rgba(59, 130, 246, 0.5);
+}
+
+/* 动画效果 */
+@keyframes float {
+  0%,
+  100% {
+    transform: translateY(0px);
+  }
+  50% {
+    transform: translateY(-5px);
+  }
+}
+
+@keyframes pulse-glow {
+  0%,
+  100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.8;
+  }
+}
+
+.float-animation {
+  animation: float 3s ease-in-out infinite;
+}
+
+.pulse-glow {
+  animation: pulse-glow 2s ease-in-out infinite;
+}
+
+/* 过渡效果 */
+* {
+  transition:
+    background-color 0.3s ease,
+    border-color 0.3s ease,
+    transform 0.3s ease,
+    box-shadow 0.3s ease,
+    backdrop-filter 0.3s ease;
+}
+
+/* 深色文本 */
+.text-dark {
+  color: rgb(30, 41, 59);
+}
+
+/* 提高对比度 */
+input,
+select,
+textarea {
+  color: rgb(30, 41, 59);
+}
+
+input::placeholder {
+  color: rgb(100, 116, 139);
+}
