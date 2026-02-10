@@ -1,3 +1,4 @@
+import Script from "next/script";
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import { LanguageProvider } from "@/contexts/LanguageContext";
@@ -57,6 +58,20 @@ export default function RootLayout({
           name="apple-mobile-web-app-status-bar-style"
           content="black-translucent"
         />
+        <head>
+          <Script
+            src="https://www.googletagmanager.com/gtag/js?id=G-F72LVLBFN4"
+            strategy="afterInteractive"
+          />
+          <Script id="ga-init" strategy="afterInteractive">
+            {`
+            window.dataLayer = window.dataLayer || [];
+            function gtag(){dataLayer.push(arguments);}
+            gtag('js', new Date());
+            gtag('config', 'G-F72LVLBFN4');
+          `}
+          </Script>
+        </head>
       </head>
       <body className={`${inter.className} antialiased bg-gray-50`}>
         <ErrorBoundary>
