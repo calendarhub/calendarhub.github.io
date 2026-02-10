@@ -83,7 +83,7 @@ export default function Home() {
               <span className="font-medium text-gray-700 text-sm md:text-base">
                 {t("calendar.year", language)}:
               </span>
-              <div className="relative">
+              <div className="relative z-10">
                 <button
                   onClick={() => setIsYearOpen(!isYearOpen)}
                   className="flex items-center space-x-2 px-3 py-1.5 md:px-4 md:py-2 bg-gray-100 hover:bg-gray-200 rounded-lg transition-colors touch-button"
