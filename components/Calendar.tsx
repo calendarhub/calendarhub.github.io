@@ -199,7 +199,7 @@ export default function Calendar({
               className="flex items-center justify-center font-medium text-gray-500 py-1.5 md:py-2 text-xs md:text-sm"
             >
               {isMobile
-                ? t(`days.${day}`, language).charAt(0)
+                ? t(`days.${day}`, language).substring(0, 3)
                 : t(`days.${day}`, language)}
             </div>
           ))}

@@ -77,7 +77,7 @@ export default function Home() {
   return (
     <main className="pb-safe">
       <div className="container mx-auto px-3 sm:px-4 py-4 md:py-8 max-mobile">
-        <div className="mb-4 md:mb-6">
+        <div className="mb-4 md:mb-6  z-10">
           <div className="glass rounded-2xl p-3 md:p-4 shadow-sm">
             <div className="flex items-center justify-between">
               <span className="font-medium text-gray-700 text-sm md:text-base">
